@@ -80,41 +80,35 @@ assignments. We will be utilizing the Gates Clusters Machine for similar reasons
 
 ## Schedule
 
-Week 1 (March 28 - April 3)
-======
+**Week 1 (March 28 - April 3)**
 * Be able to write to and read from MIDI files
 * Decide on how to represent notes/chords internally
 * Decide on the first parallel approach to this problem
 * Outline the sequential implementation
 
 
-Week 2 (April 4 - April 10)
-======
+**Week 2 (April 4 - April 10)**
 * Implement the sequential version of the program
 * Debug as needed
 
 
-Week 3 (April 11 - April 17)
-======
+**Week 3 (April 11 - April 17)**
 * Sequential implementation should be working correctly
 * Outline parallel implementation
 * Start working on the parallel implementation
 
 
-Week 4 (April 18 - April 24)
-======
+**Week 4 (April 18 - April 24)**
 * Finish off parallel implementation
 * Start analysis
 * Start second parallel implementation if there is time
 
 
-Week 5 (April 25 - May 1)
-======
+**Week 5 (April 25 - May 1)**
 * Finish off analysis
 * Write final report
 * Prepare for demo
 
 
-Week 6 (May 2 - May 5)
-======
+**Week 6 (May 2 - May 5)**
 * Prepare for demo
