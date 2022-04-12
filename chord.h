@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <stdbool.h>
-#include <voicing.h>
+#include "voicing.h"
 
 // TODO: For chords outside this template, we can inherit from this class.
 class Chord {
@@ -11,6 +11,8 @@ public:
     Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3]);
 
     bool isValidChord(Voicing voicing);
+
+    bool isPartOfChord(Note note);
 
 private:
     uint8_t bassScaleDegree;
