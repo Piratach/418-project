@@ -125,10 +125,12 @@ We started by creating structures / classes for representing the following objec
 
 This constitutes all of the most fundamental objects in the model, but in the future we may want to add further structures for generalizing constraints between chords.
 
-With those structures in place, we then wrote a sequential implementation of the constraint solver using our MVP set of constraints and chords, namely I, IV, and V chords in root position, with all voicings of chords being valid relative to that vertical slice. We are still debugging the sequential implementation. We also wrote code using a library to convert MIDI input into our internal representation of notes, and our voicing representation to MIDI output.
+With those structures in place, we then outlined a sequential implementation of the constraint solver using our MVP set of constraints and chords, namely I, IV, and V chords in root position, with all voicings of chords being valid relative to that vertical slice. We are still debugging the sequential implementation. We also wrote code using a library to convert MIDI input into our internal representation of notes, and our voicing representation to MIDI output. We have not yet written the code for the main solver algorithm, but we have almost everything necessary to begin doing that.
+
+Currently, we are behind schedule since we were to begin debugging our sequential implementation this week. However, we believe that with a few sleepless nights, we can quickly get back on track.
 
 ## Deliverable Assessment
-We believe we are still on track for our 100% deliverable, but there is some uncertainty due to the unknown amount of time it may take to debug our sequential and parallel implementations. We may also end up using a subset of the features (i.e. chords and their constraints) that we had originally hoped to implement in our solver.
+There is some uncertainty due to the unknown amount of time it may take to debug our sequential and parallel implementations. We may also end up using a subset of the features (i.e. chords and their constraints) that we had originally hoped to implement in our solver.
 
 Our current intended set of deliverables is as follows:
 Our solver should be able to output “solutions” that are correct and follow all the constraints specified. Furthermore, our solver should be able to utilize at least one parallel solution to speed-up the computations, and still yield correct results. 
