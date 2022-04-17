@@ -1,6 +1,9 @@
 
 #pragma once
 
+// TODO: Will have to change for V7.
+#define NOTES_PER_CHORD 3
+
 #include <cstdint>
 #include <stdbool.h>
 #include "voicing.h"
@@ -8,15 +11,18 @@
 // TODO: For chords outside this template, we can inherit from this class.
 class Chord {
 public:
-    Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3]);
+    Chord(uint8_t _bassScaleDegree, uint8_t _degrees[NOTES_PER_CHORD]);
 
     bool isValidChord(Voicing voicing);
 
-    bool isPartOfChord(Note note);
-
 private:
+    bool isVoicingPartOfChord(Voicing voicing);
+    bool isBassDegreeValid(Note note);
+    bool isPartOfChord(Note note);
+    bool isThirdCountValid(Voicing voicing);
+
     uint8_t bassScaleDegree;
-    uint8_t degrees[3];
+    uint8_t degrees[NOTES_PER_CHORD];
 };
 
 uint8_t degreesI[] = {1, 3, 5};

@@ -1,7 +1,10 @@
 
 #pragma once
 
+#define NOTES_PER_VOICING 4
+
 #include "note.h"
+#include <array>
 #include <stdbool.h>
 
 // Vertical slice
@@ -13,8 +16,11 @@ public:
     // 2. Each voice is in its correct range.
     bool isValidVoicing();
 
-    Note soprano;
-    Note alto;
-    Note tenor;
-    Note bass;
+    // Get methods
+    Note &getSoprano();
+    Note &getAlto();
+    Note &getTenor();
+    Note &getBass();
+
+    std::array<Note, NOTES_PER_VOICING> voices;
 };

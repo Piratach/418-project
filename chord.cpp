@@ -1,16 +1,15 @@
 
 #include "chord.h"
 
-// TODO: Remove magic numbers
 Chord::Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3]) {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < NOTES_PER_CHORD; ++i) {
         degrees[i] = _degrees[i];
     }
     bassScaleDegree = _bassScaleDegree;
 }
 
 bool Chord::isPartOfChord(Note note) {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < NOTES_PER_CHORD; ++i) {
         if (note.scaleDegree == degrees[i]) {
             return true;
         }
@@ -18,38 +17,43 @@ bool Chord::isPartOfChord(Note note) {
     return false;
 }
 
-bool Chord::isValidChord(Voicing voicing) {
-    // TODO: Make each of these into a helper function.
-    // Bass must be the first scale degree of a chord.
-    if (voicing.bass.scaleDegree != degrees[0]) {
+bool Chord::isVoicingPartOfChord(Voicing voicing) {
+    if (!isPartOfChord(voicing.getTenor())) {
+        return false;
+    }
+    if (!isPartOfChord(voicing.getAlto())) {
+        return false;
+    }
+    if (!isPartOfChord(voicing.getSoprano())) {
         return false;
     }
 
-    // TODO: Change voicing into a class with an internal array.
-    //       Use get method to get each voice.
- 
-    // Check if voicing are all part of the chord.
-    if (!isPartOfChord(voicing.tenor)) {
-        return false;
-    }
-    if (!isPartOfChord(voicing.alto)) {
-        return false;
-    }
-    if (!isPartOfChord(voicing.soprano)) {
-        return false;
-    }
+    return true;
+}
 
-    // Make sure third of the chord appears once.
+bool Chord::isBassDegreeValid(Note bass) {
+    if (bass.scaleDegree != degrees[0]) {
+        return false;
+    }
+    return true;
+}
+
+bool Chord::isThirdCountValid(Voicing voicing) {
     int thirdOfChordCount = 0;
-    if (voicing.tenor.scaleDegree == degrees[1]) {
-        ++thirdOfChordCount;
+    for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+        Note currNote = voicing.voices[i];
+        if (currNote.scaleDegree == degrees[1]) {
+            ++thirdOfChordCount;
+        }
     }
-    if (voicing.alto.scaleDegree == degrees[1]) {
-        ++thirdOfChordCount;
-    }
-    if (voicing.soprano.scaleDegree == degrees[1]) {
-        ++thirdOfChordCount;
-    }
-
     return thirdOfChordCount == 1;
+}
+
+bool Chord::isValidChord(Voicing voicing) {
+    // Bass must be the first scale degree of a chord.
+    // All notes in the voicings must be part of the chord.
+    // Make sure third of the chord appears once.
+
+    return isBassDegreeValid(voicing.getBass()) && isVoicingPartOfChord(voicing) 
+        && isThirdCountValid(voicing);
 }
