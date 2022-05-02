@@ -5,10 +5,18 @@ OBJS=Binasc.o Options.o MidiMessage.o MidiEvent.o MidiEventList.o MidiFile.o
 CXX = g++ -m64 -std=c++11
 CXXFLAGS = -I. -O3 -Wall
 
-default: midi-test
+default: solver-test
 
-midi-test: midi-test.cpp midifile/Binasc.cpp midifile/Options.cpp
+midi-test: midi-test.cpp
 	g++ -o midi-test midi-test.cpp midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp
+
+solver-test: main.cpp chord.cpp note.cpp voicing.cpp
+	g++ -o solver-test main.cpp chord.cpp note.cpp voicing.cpp
+
+clean:
+	/bin/rm -rf *.o
+	/bin/rm solver-test
+	/bin/rm midi-test
 
 # default: $(APP_NAME)
 

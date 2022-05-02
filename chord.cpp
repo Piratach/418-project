@@ -8,6 +8,15 @@ Chord::Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3]) {
     bassScaleDegree = _bassScaleDegree;
 }
 
+bool Chord::operator==(const Chord &chord) {
+    for (int i = 0; i < NOTES_PER_CHORD; ++i) {
+        if (degrees[i] != chord.degrees[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Chord::isPartOfChord(Note note) {
     for (int i = 0; i < NOTES_PER_CHORD; ++i) {
         if (note.scaleDegree == degrees[i]) {
