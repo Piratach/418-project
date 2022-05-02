@@ -11,7 +11,7 @@ int main() {
     smf::MidiFile midifile;
     (void) midifile;
     printf("Hello World!\n");
-    printf("Jonny\n");
+    printf("Hello World!\n");
 
     return 0;
 }
