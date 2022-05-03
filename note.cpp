@@ -2,11 +2,6 @@
 #include "note.h"
 #include <unordered_map>
 
-Note::Note(uint8_t _scaleDegree, uint8_t _relativeOctave) {
-    scaleDegree = _scaleDegree;
-    relativeOctave = _relativeOctave;
-}
-
 std::unordered_map<int, int> intervalToDegree = {
     {0, 1}, {2, 2}, {4, 3}, {5, 4}, {7, 5}, {9, 6}, {11, 7}
 };

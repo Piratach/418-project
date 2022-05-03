@@ -7,7 +7,6 @@
 // octave (relative to key/vocal ranges, between 0-6)
 
 struct Note {
-    Note(uint8_t _scaleDegree, uint8_t _relativeOctave);
     Note(int key, int midiNumber);
 
     bool operator>(const Note &note);
