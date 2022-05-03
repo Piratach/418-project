@@ -10,6 +10,8 @@ struct Note {
     Note(uint8_t _scaleDegree, uint8_t _relativeOctave);
     Note(int key, int midiNumber);
 
+    bool operator>(const Note &note);
+
     int toMidiNumber(int key);
 
     bool isHigherThan(Note &note);
