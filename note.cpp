@@ -12,7 +12,7 @@ std::unordered_map<int, int> degreeToInterval = {
 
 Note::Note(int key, int midiNumber) {
    int offset = (key * 7) % 12;   
-   scaleDegree = intervalToDegree[(midiNumber + offset) % 12];
+   scaleDegree = intervalToDegree[(midiNumber - offset) % 12];
    relativeOctave = ((midiNumber - 24) + offset) / 12;
 }
 
@@ -25,6 +25,6 @@ bool Note::operator>(const Note &note) {
 
 int Note::toMidiNumber(int key) {
     int offset = (key * 7) % 12;
-    return relativeOctave * 12 + 24 - offset;
+    return relativeOctave * 12 + 24 + offset;
 
 }

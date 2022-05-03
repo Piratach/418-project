@@ -11,7 +11,7 @@ midi-test: midi-test.cpp
 	g++ -o midi-test midi-test.cpp midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp
 
 solver-test: main.cpp chord.cpp note.cpp voicing.cpp
-	g++ -o solver-test main.cpp chord.cpp note.cpp voicing.cpp
+	g++ -o solver-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp
 
 clean:
 	/bin/rm -rf *.o
