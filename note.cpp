@@ -10,10 +10,16 @@ std::unordered_map<int, int> degreeToInterval = {
     {1, 0}, {2, 2}, {3, 4}, {4, 5}, {5, 7}, {6, 9}, {7, 11}
 };
 
-Note::Note(int key, int midiNumber) {
+Note::Note(uint8_t _scaleDegree, uint8_t _relativeOctave) {
+    scaleDegree = _scaleDegree;
+    relativeOctave = _relativeOctave;
+}
+
+Note Note::fromMidiNumber(int key, int midiNumber) {
    int offset = (key * 7) % 12;   
    scaleDegree = intervalToDegree[(midiNumber - offset) % 12];
    relativeOctave = ((midiNumber - 24) + offset) / 12;
+   return Note(scaleDegree, relativeOctave);
 }
 
 // TODO: operator overload >, (and >=, <, <= if it's easy)
