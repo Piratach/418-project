@@ -64,7 +64,7 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
             // For each prog in our current chord progression
             for (std::vector<Chord> prog : chordProgs) {
                 if (isStillValidProgression(prog, possibleChord)) {
-                    prog.push_back(possibleChord);
+                    prog.push_back(possibleChord); // TODO: cannot modify prog here—need to copy
                     newChordProgs.push_back(prog);
                 }
             }
