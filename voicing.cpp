@@ -1,4 +1,6 @@
 
+// TODO: GET RID OF MAGIC NUMBERS
+
 #include "voicing.h"
 
 Voicing::Voicing(Note _soprano, Note _alto, Note _tenor, Note _bass) : 
@@ -7,15 +9,23 @@ Voicing::Voicing(Note _soprano, Note _alto, Note _tenor, Note _bass) :
 Note &Voicing::getSoprano() {
     return voices[0];
 }
+
 Note &Voicing::getAlto() {
     return voices[1];
 }
+
 Note &Voicing::getTenor() {
     return voices[2];
 }
+
 Note &Voicing::getBass() {
     return voices[3];
 }
+
+int Voicing::getVoicingInterval(int idx1, int idx2) {
+    return (voices[idx1].scaleDegree - voices[idx2].scaleDegree) % 7;
+}
+
 
 bool Voicing::isValidVoicing() {
     // TODO: Check for ranges.
@@ -24,10 +34,20 @@ bool Voicing::isValidVoicing() {
            getTenor().isHigherThan(getBass());
 }
 
-/******************************** InterVoicing Constraints ******************************/
+/******************************* InterVoicing Constraints ******************************/
 
 bool isParallelFifth(Voicing v1, Voicing v2) {
-    return true;
+    for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+        for (int j = i + 1; j < NOTES_PER_VOICING; ++j) {
+            int v1Interval = v1.getVoicingInterval(i, j);
+            int v2Interval = v2.getVoicingInterval(i, j);
+
+            if (v1Interval == 4 && v2Interval == 4) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool isVoiceCrossing(Voicing v1, Voicing v2) {
