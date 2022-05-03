@@ -23,3 +23,23 @@ bool Voicing::isValidVoicing() {
            getAlto().isHigherThan(getTenor()) &&
            getTenor().isHigherThan(getBass());
 }
+
+/******************************** InterVoicing Constraints ******************************/
+
+bool isParallelFifth(Voicing v1, Voicing v2) {
+    return true;
+}
+
+bool isVoiceCrossing(Voicing v1, Voicing v2) {
+    return true;
+}
+
+bool isVoiceSkipLarge(Voicing v1, Voicing v2) {
+    return true;
+}
+
+std::vector<VoicingPredicate> interVoicingConstraints = {
+    isParallelFifth,
+    isVoiceCrossing,
+    isVoiceSkipLarge
+};

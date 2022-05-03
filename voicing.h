@@ -5,6 +5,7 @@
 
 #include "note.h"
 #include <array>
+#include <vector>
 #include <stdbool.h>
 
 // Vertical slice
@@ -24,3 +25,10 @@ public:
 
     std::array<Note, NOTES_PER_VOICING> voices;
 };
+
+bool isParallelFifth(Voicing v1, Voicing v2);
+bool isVoiceCrossing(Voicing v1, Voicing v2);
+bool isVoiceSkipLarge(Voicing v1, Voicing v2);
+
+typedef bool (*VoicingPredicate)(Voicing, Voicing);
+extern std::vector<VoicingPredicate> interVoicingConstraints;

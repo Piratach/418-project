@@ -66,3 +66,26 @@ bool Chord::isValidChord(Voicing voicing) {
     return isBassDegreeValid(voicing.getBass()) && isVoicingPartOfChord(voicing) 
         && isThirdCountValid(voicing);
 }
+
+/* Global variables */
+
+uint8_t degreesI[] = {1, 3, 5};
+Chord I = Chord(0, degreesI);
+
+uint8_t degreesIV[] = {4, 6, 1};
+Chord IV = Chord(0, degreesIV);
+
+uint8_t degreesV[] = {5, 7, 2};
+Chord V = Chord(0, degreesV);
+
+std::vector<Chord> chordLst = {I, IV, V};
+
+/****************************** Chord Constraints **************************************/
+
+bool isRetrogression(Chord ch1, Chord ch2) {
+    return ch1 == V && ch2 == IV;
+}
+
+std::vector<ChordPredicate> chordConstraints = {
+    isRetrogression
+};

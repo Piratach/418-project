@@ -2,20 +2,8 @@
 #include <stdio.h>
 
 #include "chord.h"
-#include "constraint.h"
 #include "note.h"
 #include "voicing.h"
-
-uint8_t degreesI[] = {1, 3, 5};
-Chord I = Chord(0, degreesI);
-
-uint8_t degreesIV[] = {4, 6, 1};
-Chord IV = Chord(0, degreesIV);
-
-uint8_t degreesV[] = {5, 7, 2};
-Chord V = Chord(0, degreesV);
-
-std::vector<Chord> chordLst = {I, IV, V};
 
 /** Pseudocode
  * 1. initialize chordProgs as [[]]
@@ -43,11 +31,14 @@ std::vector<Chord> getPossibleChords(Note note) {
 
 bool isStillValidProgression(std::vector<Chord> prog, Chord possibleChord) {
     // V > IV constraint check
-    if (prog.back() == V && possibleChord == IV) {
-        return false;
+
+    Chord lastChord = prog.back();
+    for (ChordPredicate pred : chordConstraints) {
+        if (pred(lastChord, possibleChord)) {
+            return false;
+        }
     }
 
-    // Voicing constraints check (no overlapping, small steps etc)
     return true;
 }
 
@@ -64,8 +55,9 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
             // For each prog in our current chord progression
             for (std::vector<Chord> prog : chordProgs) {
                 if (isStillValidProgression(prog, possibleChord)) {
-                    prog.push_back(possibleChord); // TODO: cannot modify prog here—need to copy
-                    newChordProgs.push_back(prog);
+                    std::vector<Chord> newProg(prog);
+                    newProg.push_back(possibleChord);
+                    newChordProgs.push_back(newProg);
                 }
             }
         }

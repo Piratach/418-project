@@ -27,3 +27,16 @@ private:
     uint8_t bassScaleDegree;
     uint8_t degrees[NOTES_PER_CHORD];
 };
+
+/******************************* List of Chords ****************************************/
+extern Chord I;
+extern Chord IV;
+extern Chord V;
+extern std::vector<Chord> chordLst;
+
+/****************************** Chord Constraints **************************************/
+
+bool isRetrogression(Chord ch1, Chord ch2);
+
+typedef bool (*ChordPredicate)(Chord, Chord);
+extern std::vector<ChordPredicate> chordConstraints;
