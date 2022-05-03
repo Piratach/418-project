@@ -22,6 +22,10 @@ Note &Voicing::getBass() {
     return voices[3];
 }
 
+Note &Voicing::at(int idx) {
+    return voices[idx];
+}
+
 int Voicing::getVoicingInterval(int idx1, int idx2) {
     return (voices[idx1].scaleDegree - voices[idx2].scaleDegree) % 7;
 }
@@ -29,9 +33,9 @@ int Voicing::getVoicingInterval(int idx1, int idx2) {
 
 bool Voicing::isValidVoicing() {
     // TODO: Check for ranges.
-    return getSoprano().isHigherThan(getAlto()) &&
-           getAlto().isHigherThan(getTenor()) &&
-           getTenor().isHigherThan(getBass());
+    return getSoprano() > getAlto() &&
+           getAlto() > getTenor() &&
+           getTenor() > getBass();
 }
 
 /******************************* InterVoicing Constraints ******************************/
@@ -51,7 +55,12 @@ bool isParallelFifth(Voicing v1, Voicing v2) {
 }
 
 bool isVoiceCrossing(Voicing v1, Voicing v2) {
-    return true;
+    for (int i = 0; i < NOTES_PER_VOICING - 1; ++i) {
+        if (v2.at(i + 1) > v1.at(i)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool isVoiceSkipLarge(Voicing v1, Voicing v2) {

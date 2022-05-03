@@ -23,6 +23,8 @@ public:
     Note &getTenor();
     Note &getBass();
 
+    Note &at(int idx);
+
     int getVoicingInterval(int idx1, int idx2);
 
     std::array<Note, NOTES_PER_VOICING> voices;
