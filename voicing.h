@@ -36,3 +36,5 @@ bool isVoiceSkipLarge(Voicing v1, Voicing v2);
 
 typedef bool (*VoicingPredicate)(Voicing, Voicing);
 extern std::vector<VoicingPredicate> interVoicingConstraints;
+
+bool satisfiesAll(Voicing v1, Voicing v2);

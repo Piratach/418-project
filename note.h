@@ -10,7 +10,7 @@ struct Note {
 
     Note(uint8_t _scaleDegree, uint8_t _relativeOctave);
 
-    Note fromMidiNumber(int key, int midiNumber);
+    static Note fromMidiNumber(int key, int midiNumber);
 
     bool operator>(const Note &note);
 

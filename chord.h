@@ -16,6 +16,7 @@ public:
 
     bool operator==(const Chord &chord);
 
+    // TODO: change name
     bool isValidChord(Voicing voicing);
     bool isPartOfChord(Note note);
 

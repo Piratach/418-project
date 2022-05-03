@@ -43,7 +43,6 @@ bool isStillValidProgression(std::vector<Chord> prog, Chord possibleChord) {
 }
 
 std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
-    // [[]]
     std::vector<std::vector<Chord>> chordProgs{std::vector<Chord>()}; 
 
     // For each note in the soprano
@@ -67,6 +66,30 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
     return chordProgs;
 }
 
+std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote) {
+    std::vector<Voicing> possibleVoicings;
+    int key = -2;
+    // G5 is 79, E2 is 40
+    for (int bass = 40; bass < 79; ++bass) {
+        for (int tenor = 40; tenor < 79; ++tenor) {
+            for (int alto = 40; alto < 79; ++alto) {
+                Voicing currVoicing{
+                    sopranoNote,
+                    Note::fromMidiNumber(key, alto),
+                    Note::fromMidiNumber(key, tenor),
+                    Note::fromMidiNumber(key, bass)
+                };
+
+                if (currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                    possibleVoicings.push_back(currVoicing);
+                }
+            }
+        }
+    }
+
+    return possibleVoicings;
+}
+
 /** Pseudocode (for one chord progression)
  * 1. initialize voicings as [[]]
  * 2. for (sopranoNote, chord) in (melodyLine, chordProgs)
@@ -76,8 +99,31 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
  *       ii). 
  */
 std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
-        std::vector<std::vector<Chord>> chordProgs) {
-    std::vector<std::vector<Voicing>> solution;
+        std::vector<Chord> chordProg) {
+    std::vector<std::vector<Voicing>> solution{std::vector<Voicing>()}; 
+
+    // For each note in the soprano
+    for (int i = 0; i < melodyLine.size(); ++i) {
+        Chord currChord = chordProg[i];
+        Note sopranoNote = melodyLine[i];
+
+        std::vector<std::vector<Voicing>> newVoicings;
+        std::vector<Voicing> possibleVoicings = getPossibleVoicings(currChord, sopranoNote);
+
+        // For each possible chord
+        for (Voicing possibleVoicing : possibleVoicings) {
+            // For each prog in our current chord progression
+            for (std::vector<Voicing> solutionVoicing : solution) {
+                if (satisfiesAll(solutionVoicing.back(), possibleVoicing)) {
+                    std::vector<Voicing> solutionVoicingCopy(solutionVoicing);
+                    solutionVoicingCopy.push_back(possibleVoicing);
+                    newVoicings.push_back(solutionVoicingCopy);
+                }
+            }
+        }
+        solution = newVoicings;
+    }
+
     return solution;
 }
 

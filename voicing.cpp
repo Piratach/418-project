@@ -72,3 +72,12 @@ std::vector<VoicingPredicate> interVoicingConstraints = {
     isVoiceCrossing,
     isVoiceSkipLarge
 };
+
+bool satisfiesAll(Voicing v1, Voicing v2) {
+    for (VoicingPredicate pred : interVoicingConstraints) {
+        if (pred(v1, v2)) {
+            return false;
+        }
+    }
+    return true;
+}
