@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <stdbool.h>
+#include <cmath>
 // scale degree (relative to key, between 1-7 inclusive)
 // octave (relative to key/vocal ranges, between 0-6)
 
@@ -16,7 +17,7 @@ struct Note {
 
     int toMidiNumber(int key);
 
-    bool isHigherThan(Note &note);
+    size_t getInterval(Note &note);
 
     // TODO: Maybe combine into one variable and use a mask.
     uint8_t scaleDegree;

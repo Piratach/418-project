@@ -17,12 +17,18 @@ Note::Note(uint8_t _scaleDegree, uint8_t _relativeOctave) {
 
 Note Note::fromMidiNumber(int key, int midiNumber) {
    int offset = (key * 7) % 12;   
-   scaleDegree = intervalToDegree[(midiNumber - offset) % 12];
-   relativeOctave = ((midiNumber - 24) + offset) / 12;
-   return Note(scaleDegree, relativeOctave);
+   int newScaleDegree = intervalToDegree[(midiNumber - offset) % 12];
+   int newRelativeOctave = ((midiNumber - 24) + offset) / 12;
+   return Note(newScaleDegree, newRelativeOctave);
 }
 
-// TODO: operator overload >, (and >=, <, <= if it's easy)
+size_t Note::getInterval(Note &note) {
+    size_t degreeDiff = abs(scaleDegree - note.scaleDegree); 
+    size_t octaveDiff = abs(relativeOctave - note.relativeOctave);
+    // TODO: maybe wrong
+    return degreeDiff + (octaveDiff * 7);
+}
+
 bool Note::operator>(const Note &note) {
     return relativeOctave > note.relativeOctave || 
         (relativeOctave == note.relativeOctave && 

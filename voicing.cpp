@@ -64,7 +64,15 @@ bool isVoiceCrossing(Voicing v1, Voicing v2) {
 }
 
 bool isVoiceSkipLarge(Voicing v1, Voicing v2) {
-    return true;
+    for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+        Note prevNote = v1.at(i);
+        Note nextNote = v2.at(i);
+        // No more than P4
+        if (prevNote.getInterval(nextNote) > 4) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<VoicingPredicate> interVoicingConstraints = {
