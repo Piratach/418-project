@@ -8,7 +8,7 @@ CXXFLAGS = -I. -O3 -Wall
 default: solver-test
 
 midi-test: midi-test.cpp
-	g++ -o midi-test midi-test.cpp midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp
+	g++ -o midi-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp chord.cpp note.cpp voicing.cpp
 
 solver-test: main.cpp chord.cpp note.cpp voicing.cpp
 	g++ -o solver-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp
