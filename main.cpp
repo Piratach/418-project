@@ -72,15 +72,20 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
 
 std::vector<Voicing> getPossibleVoicings(Chord chord, Note soprano/*, int key*/) {
     std::vector<Voicing> possibleVoicings;
+
     int key = -2;
-    // G5 is 79, E2 is 40
-    // TODO: fix
-    Note bassLimit{1, 4};  // ranges from (1, 0) to (1, 4)
-    Note tenorLimit{1, 5};
-    Note altoLimit{1, 6};
-    for (Note bass = Note{1, 0}; bass < bassLimit; ++bass) {
-        for (Note tenor = Note{1, 1}; tenor < tenorLimit; ++tenor) {
-            for (Note alto = Note{1, 2}; alto < altoLimit; ++alto) {
+    Note bassMin = Note::fromMidiNumber(BASS_MIN, key);
+    Note tenorMin = Note::fromMidiNumber(TENOR_MIN, key);
+    Note altoMin = Note::fromMidiNumber(ALTO_MIN, key);
+
+    Note bassMax = Note::fromMidiNumber(BASS_MAX, key);
+    Note tenorMax = Note::fromMidiNumber(TENOR_MAX, key);
+    Note altoMax = Note::fromMidiNumber(ALTO_MAX, key);
+
+    // TODO: this doesn't work currently.
+    for (Note bass = bassMin; bass < bassMax; ++bass) {
+        for (Note tenor = tenorMin; tenor < tenorMax; ++tenor) {
+            for (Note alto = altoMin; alto < altoMax; ++alto) {
                 Voicing currVoicing{soprano, alto, tenor, bass};
 
                 if (currVoicing.isInRange(key) && 
@@ -92,17 +97,17 @@ std::vector<Voicing> getPossibleVoicings(Chord chord, Note soprano/*, int key*/)
         }
     }
 
-    // for (int bass = 40; bass < 79; ++bass) {
-        // for (int tenor = 40; tenor < 79; ++tenor) {
-            // for (int alto = 40; alto < 79; ++alto) {
-                // Voicing currVoicing{
-                    // soprano,
-                    // Note::fromMidiNumber(key, alto),
-                    // Note::fromMidiNumber(key, tenor),
-                    // Note::fromMidiNumber(key, bass)
-                // };
+    // Note bassLimit{1, 4};  // ranges from (1, 0) to (1, 4)
+    // Note tenorLimit{1, 5};
+    // Note altoLimit{1, 6};
+    // for (Note bass = Note::fromMidiNumber(BASS_MIN, key); bass < bassLimit; ++bass) {
+        // for (Note tenor = Note{1, 1}; tenor < tenorLimit; ++tenor) {
+            // for (Note alto = Note{1, 2}; alto < altoLimit; ++alto) {
+                // Voicing currVoicing{soprano, alto, tenor, bass};
 
-                // if ([> currVoicing.isInRange(int key) && <] currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                // if (currVoicing.isInRange(key) && 
+                    // currVoicing.isValidVoicing() && 
+                    // chord.isValidChord(currVoicing)) {
                     // possibleVoicings.push_back(currVoicing);
                 // }
             // }
