@@ -1,5 +1,7 @@
-#include <vector>
+
+#include <chrono>
 #include <stdio.h>
+#include <vector>
 
 #include "chord.h"
 #include "note.h"
@@ -168,6 +170,12 @@ void printChordProg(std::vector<Chord> chordProg) {
 }
 
 int main() {
+    using namespace std::chrono;
+    typedef std::chrono::high_resolution_clock Clock;
+    typedef std::chrono::duration<double> dsec;
+
+    auto initStart = Clock::now();
+    double initTime = 0;
 
     /* Make hardcoded melody line of Bb F Bb to use for testing */
     Note sop1{1, 4};
@@ -175,6 +183,12 @@ int main() {
     Note sop3{1, 4};
 
     std::vector<Note> melodyLine{sop1, sop2, sop3};
+
+    initTime += duration_cast<dsec>(Clock::now() - initStart).count();
+    printf("Initialization Time: %lf.\n", initTime);
+
+    auto computeStart = Clock::now();
+    double computeTime = 0;
 
     std::vector<std::vector<Chord>> possibleChordProgs = solverHelper(melodyLine);
 
@@ -215,8 +229,11 @@ int main() {
         }
         printf("-----------------------------\n");
     }
-
     printf("totalSize: %lu\n", totalSize);
+
+    computeTime += duration_cast<dsec>(Clock::now() - computeStart).count();
+    printf("Computation Time: %lf.\n", computeTime);
+    printf("Total Time: %lf.\n", computeTime + initTime);
 
     return 0;
 }
