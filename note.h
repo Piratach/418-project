@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <cmath>
 #include <cstdint>
 #include <stdbool.h>
-#include <cmath>
+#include <string>
 // scale degree (relative to key, between 1-7 inclusive)
 // octave (relative to key/vocal ranges, between 0-6)
 
@@ -14,6 +15,8 @@ struct Note {
     static Note fromMidiNumber(int key, int midiNumber);
 
     bool operator>(const Note &note);
+
+    std::string toString();
 
     int toMidiNumber(int key);
 

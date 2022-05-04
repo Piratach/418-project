@@ -22,6 +22,12 @@ Note Note::fromMidiNumber(int key, int midiNumber) {
    return Note(newScaleDegree, newRelativeOctave);
 }
 
+std::string Note::toString() {
+    std::string s1 = "(scaleDegree: " + std::to_string(scaleDegree);
+    std::string s2 = ", relativeOctave: " + std::to_string(relativeOctave);
+    return s1 + s2;
+}
+
 int Note::distanceTo(Note &note) {
     int degreeDiff = note.scaleDegree - scaleDegree;
     int octaveDiff = note.relativeOctave - relativeOctave;
