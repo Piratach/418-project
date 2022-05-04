@@ -66,7 +66,7 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
     return chordProgs;
 }
 
-std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote) {
+std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote/*, int key*/) {
     std::vector<Voicing> possibleVoicings;
     int key = -2;
     // G5 is 79, E2 is 40
@@ -80,7 +80,7 @@ std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote) {
                     Note::fromMidiNumber(key, bass)
                 };
 
-                if (currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                if (/*currVoicing.isInRange(int key) && */currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
                     possibleVoicings.push_back(currVoicing);
                 }
             }
@@ -128,6 +128,9 @@ std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
 }
 
 int main() {
+
+    /* Make hardcoded melody line of Bb F Bb to use for testing */
+
     /* Takes in MIDI input
      *    - has number of vertical slices (voicings)
      *    - allocates that number
