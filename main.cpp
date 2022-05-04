@@ -32,6 +32,10 @@ std::vector<Chord> getPossibleChords(Note note) {
 bool isStillValidProgression(std::vector<Chord> prog, Chord possibleChord) {
     // V > IV constraint check
 
+    if (prog.empty()) {
+        return true;
+    }
+
     Chord lastChord = prog.back();
     for (ChordPredicate pred : chordConstraints) {
         if (pred(lastChord, possibleChord)) {
@@ -80,7 +84,7 @@ std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote/*, int ke
                     Note::fromMidiNumber(key, bass)
                 };
 
-                if (/*currVoicing.isInRange(int key) && */currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                if (/* currVoicing.isInRange(int key) && */ currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
                     possibleVoicings.push_back(currVoicing);
                 }
             }
@@ -130,6 +134,13 @@ std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
 int main() {
 
     /* Make hardcoded melody line of Bb F Bb to use for testing */
+    Note sop1{1, 4};
+    Note sop2{5, 4};
+    Note sop3{1, 4};
+
+    std::vector<Note> melodyLine{sop1, sop2, sop3};
+
+    std::vector<std::vector<Chord>> possibleChordProgs = solverHelper(melodyLine);
 
     /* Takes in MIDI input
      *    - has number of vertical slices (voicings)
@@ -150,6 +161,11 @@ int main() {
     /* Solve
      *    - given an array of notes (soprano line) and array of chords, output an array of arrays of voicings
      */
+
+    for (std::vector<Chord> chordProg : possibleChordProgs) {
+        std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg);
+
+    }
     printf("Hello World!\n");
     return 0;
 }
