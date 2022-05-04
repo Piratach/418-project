@@ -5,8 +5,9 @@
 
 #include "note.h"
 #include <array>
-#include <vector>
+#include <cassert>
 #include <stdbool.h>
+#include <vector>
 
 // Vertical slice
 struct Voicing {
@@ -25,9 +26,9 @@ public:
 
     Note &at(int idx);
 
-    int getVoicingInterval(int idx1, int idx2);
 
     std::array<Note, NOTES_PER_VOICING> voices;
+
 };
 
 bool isParallelFifth(Voicing v1, Voicing v2);

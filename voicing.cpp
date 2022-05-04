@@ -26,11 +26,6 @@ Note &Voicing::at(int idx) {
     return voices[idx];
 }
 
-int Voicing::getVoicingInterval(int idx1, int idx2) {
-    return (voices[idx1].scaleDegree - voices[idx2].scaleDegree) % 7;
-}
-
-
 bool Voicing::isValidVoicing() {
     // TODO: Check for ranges.
     return getSoprano() > getAlto() &&
@@ -43,9 +38,8 @@ bool Voicing::isValidVoicing() {
 bool isParallelFifth(Voicing v1, Voicing v2) {
     for (int i = 0; i < NOTES_PER_VOICING; ++i) {
         for (int j = i + 1; j < NOTES_PER_VOICING; ++j) {
-            int v1Interval = v1.getVoicingInterval(i, j);
-            int v2Interval = v2.getVoicingInterval(i, j);
-
+            int v1Interval = (v1.at(j)).distanceTo(v1.at(i));
+            int v2Interval = (v2.at(j)).distanceTo(v2.at(i));
             if (v1Interval == 4 && v2Interval == 4) {
                 return true;
             }
@@ -68,7 +62,7 @@ bool isVoiceSkipLarge(Voicing v1, Voicing v2) {
         Note prevNote = v1.at(i);
         Note nextNote = v2.at(i);
         // No more than P4
-        if (prevNote.getInterval(nextNote) > 4) {
+        if (abs(prevNote.distanceTo(nextNote)) > 4) {
             return true;
         }
     }
