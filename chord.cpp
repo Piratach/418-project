@@ -91,6 +91,12 @@ bool isRetrogression(Chord ch1, Chord ch2) {
     return ch1 == V && ch2 == IV;
 }
 
+/* Not an actual rule, enforced just to ensure variety. */
+bool isRepeatedChord(Chord ch1, Chord ch2) {
+    return ch1 == ch2;
+}
+
 std::vector<ChordPredicate> chordConstraints = {
-    isRetrogression
+    isRetrogression,
+    isRepeatedChord
 };

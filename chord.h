@@ -43,6 +43,8 @@ extern std::vector<Chord> chordLst;
 /****************************** Chord Constraints **************************************/
 
 bool isRetrogression(Chord ch1, Chord ch2);
+/* Not an actual rule, enforced just to ensure variety. */
+bool isRepeatedChord(Chord ch1, Chord ch2);
 
 typedef bool (*ChordPredicate)(Chord, Chord);
 extern std::vector<ChordPredicate> chordConstraints;
