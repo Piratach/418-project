@@ -16,6 +16,8 @@ struct Note {
 
     bool operator>(const Note &note);
 
+    Note operator++();
+
     std::string toString();
 
     int toMidiNumber(int key);

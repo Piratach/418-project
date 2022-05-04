@@ -40,6 +40,17 @@ bool Note::operator>(const Note &note) {
          scaleDegree > note.scaleDegree);
 }
 
+Note Note::operator++() {
+    uint8_t newScaleDegree, newRelativeOctave;
+    if (scaleDegree == 7) {
+        newScaleDegree = 0;
+        newRelativeOctave = relativeOctave + 1;
+        return Note{newScaleDegree, newRelativeOctave};
+    }
+    newScaleDegree = scaleDegree + 1;
+    return Note{newScaleDegree, relativeOctave};
+}
+
 int Note::toMidiNumber(int key) {
     int offset = (key * 7) % 12;
     return relativeOctave * 12 + 24 + offset;
