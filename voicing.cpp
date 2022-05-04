@@ -27,10 +27,30 @@ Note &Voicing::at(int idx) {
 }
 
 bool Voicing::isValidVoicing() {
-    // TODO: Check for ranges.
     return getSoprano() > getAlto() &&
            getAlto() > getTenor() &&
            getTenor() > getBass();
+}
+
+bool Voicing::isInRange(int key) {
+    // soprano
+    int sopranoMidiNum = getSoprano().toMidiNumber(key);
+    int altoMidiNum = getAlto().toMidiNumber(key);
+    int tenorMidiNum = getTenor().toMidiNumber(key);
+    int bassMidiNum = getBass().toMidiNumber(key);
+    if (sopranoMidiNum < SOPRANO_MIN || SOPRANO_MAX < sopranoMidiNum) {
+        return false;
+    }
+    if (altoMidiNum < ALTO_MIN || ALTO_MAX < altoMidiNum) {
+        return false;
+    }
+    if (tenorMidiNum < TENOR_MIN || TENOR_MAX < tenorMidiNum) {
+        return false;
+    }
+    if (bassMidiNum < BASS_MIN || BASS_MAX < bassMidiNum) {
+        return false;
+    }
+    return true;
 }
 
 /******************************* InterVoicing Constraints ******************************/

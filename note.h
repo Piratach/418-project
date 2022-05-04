@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <stdbool.h>
 #include <string>
+
 // scale degree (relative to key, between 1-7 inclusive)
 // octave (relative to key/vocal ranges, between 0-6)
 
@@ -15,6 +16,7 @@ struct Note {
     static Note fromMidiNumber(int key, int midiNumber);
 
     bool operator>(const Note &note);
+    bool operator<(const Note &note);
 
     Note operator++();
 

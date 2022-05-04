@@ -2,6 +2,14 @@
 #pragma once
 
 #define NOTES_PER_VOICING 4
+#define BASS_MIN 40
+#define BASS_MAX 62
+#define TENOR_MIN 48
+#define TENOR_MAX 67
+#define ALTO_MIN 55
+#define ALTO_MAX 74
+#define SOPRANO_MIN 60
+#define SOPRANO_MAX 79
 
 #include "note.h"
 #include <array>
@@ -17,6 +25,8 @@ public:
     // 1. Voices are in correct order.
     // 2. Each voice is in its correct range.
     bool isValidVoicing();
+
+    bool isInRange(int key);
 
     // Get methods
     Note &getSoprano();

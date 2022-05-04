@@ -40,6 +40,12 @@ bool Note::operator>(const Note &note) {
          scaleDegree > note.scaleDegree);
 }
 
+bool Note::operator<(const Note &note) {
+    return relativeOctave < note.relativeOctave || 
+        (relativeOctave == note.relativeOctave && 
+         scaleDegree < note.scaleDegree);
+}
+
 Note Note::operator++() {
     uint8_t newScaleDegree, newRelativeOctave;
     if (scaleDegree == 7) {
