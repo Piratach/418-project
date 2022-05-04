@@ -22,10 +22,9 @@ Note Note::fromMidiNumber(int key, int midiNumber) {
    return Note(newScaleDegree, newRelativeOctave);
 }
 
-size_t Note::getInterval(Note &note) {
-    size_t degreeDiff = abs(scaleDegree - note.scaleDegree); 
-    size_t octaveDiff = abs(relativeOctave - note.relativeOctave);
-    // TODO: maybe wrong
+int Note::distanceTo(Note &note) {
+    int degreeDiff = note.scaleDegree - scaleDegree;
+    int octaveDiff = note.relativeOctave - relativeOctave;
     return degreeDiff + (octaveDiff * 7);
 }
 

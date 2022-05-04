@@ -17,7 +17,7 @@ struct Note {
 
     int toMidiNumber(int key);
 
-    size_t getInterval(Note &note);
+    int distanceTo(Note &note);
 
     // TODO: Maybe combine into one variable and use a mask.
     uint8_t scaleDegree;
