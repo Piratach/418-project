@@ -70,26 +70,44 @@ std::vector<std::vector<Chord>> solverHelper(std::vector<Note> melodyLine) {
     return chordProgs;
 }
 
-std::vector<Voicing> getPossibleVoicings(Chord chord, Note sopranoNote/*, int key*/) {
+std::vector<Voicing> getPossibleVoicings(Chord chord, Note soprano/*, int key*/) {
     std::vector<Voicing> possibleVoicings;
     int key = -2;
     // G5 is 79, E2 is 40
-    for (int bass = 40; bass < 79; ++bass) {
-        for (int tenor = 40; tenor < 79; ++tenor) {
-            for (int alto = 40; alto < 79; ++alto) {
-                Voicing currVoicing{
-                    sopranoNote,
-                    Note::fromMidiNumber(key, alto),
-                    Note::fromMidiNumber(key, tenor),
-                    Note::fromMidiNumber(key, bass)
-                };
+    // TODO: fix
+    Note bassLimit{1, 4};  // ranges from (1, 0) to (1, 4)
+    Note tenorLimit{1, 5};
+    Note altoLimit{1, 6};
+    for (Note bass = Note{1, 0}; bass < bassLimit; ++bass) {
+        for (Note tenor = Note{1, 1}; tenor < tenorLimit; ++tenor) {
+            for (Note alto = Note{1, 2}; alto < altoLimit; ++alto) {
+                Voicing currVoicing{soprano, alto, tenor, bass};
 
-                if (/* currVoicing.isInRange(int key) && */ currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                if (currVoicing.isInRange(key) && 
+                    currVoicing.isValidVoicing() && 
+                    chord.isValidChord(currVoicing)) {
                     possibleVoicings.push_back(currVoicing);
                 }
             }
         }
     }
+
+    // for (int bass = 40; bass < 79; ++bass) {
+        // for (int tenor = 40; tenor < 79; ++tenor) {
+            // for (int alto = 40; alto < 79; ++alto) {
+                // Voicing currVoicing{
+                    // soprano,
+                    // Note::fromMidiNumber(key, alto),
+                    // Note::fromMidiNumber(key, tenor),
+                    // Note::fromMidiNumber(key, bass)
+                // };
+
+                // if ([> currVoicing.isInRange(int key) && <] currVoicing.isValidVoicing() && chord.isValidChord(currVoicing)) {
+                    // possibleVoicings.push_back(currVoicing);
+                // }
+            // }
+        // }
+    // }
 
     return possibleVoicings;
 }
