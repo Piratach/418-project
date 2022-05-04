@@ -118,7 +118,8 @@ std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
         for (Voicing possibleVoicing : possibleVoicings) {
             // For each prog in our current chord progression
             for (std::vector<Voicing> solutionVoicing : solution) {
-                if (satisfiesAll(solutionVoicing.back(), possibleVoicing)) {
+                if (solutionVoicing.empty() || 
+                        satisfiesAll(solutionVoicing.back(), possibleVoicing)) {
                     std::vector<Voicing> solutionVoicingCopy(solutionVoicing);
                     solutionVoicingCopy.push_back(possibleVoicing);
                     newVoicings.push_back(solutionVoicingCopy);
@@ -129,6 +130,18 @@ std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
     }
 
     return solution;
+}
+
+void printChordProg(std::vector<Chord> chordProg) {
+    for (size_t i = 0; i < chordProg.size(); ++i) {
+        Chord chord = chordProg[i];
+        printf("%s", chord.toString().c_str());
+        if (i < chordProg.size() - 1) {
+            printf(" > ");
+        } else {
+            printf("\n");
+        }
+    }
 }
 
 int main() {
@@ -162,10 +175,25 @@ int main() {
      *    - given an array of notes (soprano line) and array of chords, output an array of arrays of voicings
      */
 
+    size_t totalSize = 0;
     for (std::vector<Chord> chordProg : possibleChordProgs) {
+        printChordProg(chordProg);
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg);
-
+        totalSize += solution.size();
+        for (std::vector<Voicing> validVoicings : solution) {
+            // for each voicing
+            for (Voicing voicing : validVoicings) {
+                for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+                    Note currNote = voicing.at(i);
+                    printf("%s ", currNote.toString().c_str());
+                }
+            }
+            printf("\n");
+        }
+        printf("-----------------------------\n");
     }
-    printf("Hello World!\n");
+
+    printf("totalSize: %lu\n", totalSize);
+
     return 0;
 }
