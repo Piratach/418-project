@@ -24,7 +24,7 @@ Note Note::fromMidiNumber(int key, int midiNumber) {
 
 std::string Note::toString() {
     std::string s1 = "(scaleDegree: " + std::to_string(scaleDegree);
-    std::string s2 = ", relativeOctave: " + std::to_string(relativeOctave);
+    std::string s2 = ", relativeOctave: " + std::to_string(relativeOctave) + ")";
     return s1 + s2;
 }
 
