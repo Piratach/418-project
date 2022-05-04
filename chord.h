@@ -6,13 +6,15 @@
 
 #include <cstdint>
 #include <stdbool.h>
+#include <string>
 #include <vector>
 #include "voicing.h"
 
 // TODO: For chords outside this template, we can inherit from this class.
 class Chord {
 public:
-    Chord(uint8_t _bassScaleDegree, uint8_t _degrees[NOTES_PER_CHORD]);
+    Chord(uint8_t _bassScaleDegree, uint8_t _degrees[NOTES_PER_CHORD],
+            std::string _chordName);
 
     bool operator==(const Chord &chord);
 
@@ -20,11 +22,14 @@ public:
     bool isValidChord(Voicing voicing);
     bool isPartOfChord(Note note);
 
+    std::string toString();
+
 private:
     bool isVoicingPartOfChord(Voicing voicing);
     bool isBassDegreeValid(Note note);
     bool isThirdCountValid(Voicing voicing);
 
+    std::string chordName;
     uint8_t bassScaleDegree;
     uint8_t degrees[NOTES_PER_CHORD];
 };

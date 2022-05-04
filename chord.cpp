@@ -1,7 +1,8 @@
 
 #include "chord.h"
 
-Chord::Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3]) {
+Chord::Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3], std::string _chordName) 
+: chordName(_chordName) {
     for (int i = 0; i < NOTES_PER_CHORD; ++i) {
         degrees[i] = _degrees[i];
     }
@@ -24,6 +25,10 @@ bool Chord::isPartOfChord(Note note) {
         }
     }
     return false;
+}
+
+std::string Chord::toString() {
+    return chordName;
 }
 
 bool Chord::isVoicingPartOfChord(Voicing voicing) {
@@ -70,13 +75,13 @@ bool Chord::isValidChord(Voicing voicing) {
 /* Global variables */
 
 uint8_t degreesI[] = {1, 3, 5};
-Chord I = Chord(0, degreesI);
+Chord I = Chord(0, degreesI, "I");
 
 uint8_t degreesIV[] = {4, 6, 1};
-Chord IV = Chord(0, degreesIV);
+Chord IV = Chord(0, degreesIV, "IV");
 
 uint8_t degreesV[] = {5, 7, 2};
-Chord V = Chord(0, degreesV);
+Chord V = Chord(0, degreesV, "V");
 
 std::vector<Chord> chordLst = {I, IV, V};
 
