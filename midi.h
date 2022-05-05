@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <vector>
 #include "note.h"
 #include "voicing.h"
