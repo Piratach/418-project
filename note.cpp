@@ -29,6 +29,22 @@ Note Note::fromMidiNumber(int key, int midiNumber) {
    return Note(scaleDegree, octave);
 }
 
+static Note highestNoteNotAboveMidiNumber(int key, int midiNumber) {
+    Note note = Note::fromMidiNumber(key, midiNumber);
+    while (note.scaleDegree == 0) {
+        note = Note::fromMidiNumber(key, --midiNumber);
+    }
+    return note;
+}
+
+static Note lowestNoteNotBelowMidiNumber(int key, int midiNumber) {
+    Note note = Note::fromMidiNumber(key, midiNumber);
+    while (note.scaleDegree == 0) {
+        note = Note::fromMidiNumber(key, ++midiNumber);
+    }
+    return note;
+}
+
 std::string Note::toString() {
     std::string s1 = "(scaleDegree: " + std::to_string(scaleDegree);
     std::string s2 = ", relativeOctave: " + std::to_string(relativeOctave) + ")";

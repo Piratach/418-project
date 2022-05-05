@@ -2,8 +2,8 @@
 #include "midifile/MidiFile.h"
 #include "midi.h"
 
-void readKeyAndSopranoLine(const char *filepath, int &key, std::vector<Note> sopranoLine) {
-    printf("Reading file: %s...\n", filepath);
+void readKeyAndSopranoLine(const char *filepath, char &key, std::vector<Note> &sopranoLine) {
+    // printf("Reading file: %s...\n", filepath);
     smf::MidiFile midifile(filepath);
     smf::MidiEventList track = midifile[0];
     int count = 0;
