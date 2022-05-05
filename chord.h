@@ -13,7 +13,7 @@
 // TODO: For chords outside this template, we can inherit from this class.
 class Chord {
 public:
-    Chord(uint8_t _bassScaleDegree, uint8_t _degrees[NOTES_PER_CHORD],
+    Chord(uint8_t _bassScaleIndex, uint8_t _degrees[NOTES_PER_CHORD],
             std::string _chordName);
 
     bool operator==(const Chord &chord);
@@ -31,7 +31,7 @@ private:
     bool isFifthCountValid(Voicing voicing);
 
     std::string chordName;
-    uint8_t bassScaleDegree;
+    uint8_t bassScaleIndex;
     uint8_t degrees[NOTES_PER_CHORD];
 };
 
