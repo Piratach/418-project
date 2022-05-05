@@ -42,6 +42,7 @@ public:
 };
 
 bool isParallelFifth(Voicing v1, Voicing v2);
+bool isParallelOctave(Voicing v1, Voicing v2);
 bool isVoiceCrossing(Voicing v1, Voicing v2);
 bool isVoiceSkipLarge(Voicing v1, Voicing v2);
 
