@@ -63,13 +63,24 @@ bool Chord::isThirdCountValid(Voicing voicing) {
     return thirdOfChordCount == 1;
 }
 
+bool Chord::isFifthCountValid(Voicing voicing) {
+    int thirdOfChordCount = 0;
+    for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+        Note currNote = voicing.voices[i];
+        if (currNote.scaleDegree == degrees[2]) {
+            ++thirdOfChordCount;
+        }
+    }
+    return thirdOfChordCount >= 1;
+}
+
 bool Chord::isValidChord(Voicing voicing) {
     // Bass must be the first scale degree of a chord.
     // All notes in the voicings must be part of the chord.
     // Make sure third of the chord appears once.
 
     return isBassDegreeValid(voicing.getBass()) && isVoicingPartOfChord(voicing) 
-        && isThirdCountValid(voicing);
+        && isThirdCountValid(voicing) && isFifthCountValid(voicing);
 }
 
 /* Global variables */

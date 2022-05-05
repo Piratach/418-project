@@ -26,10 +26,14 @@ Note &Voicing::at(int idx) {
     return voices[idx];
 }
 
+
 bool Voicing::isValidVoicing() {
-    return getSoprano() > getAlto() &&
-           getAlto() > getTenor() &&
-           getTenor() > getBass();
+    bool voicesClose = getAlto().distanceTo(getSoprano()) <= 7 &&
+                       getTenor().distanceTo(getAlto()) <= 7;
+    bool voicesInOrder = getSoprano() > getAlto() &&
+                         getAlto() > getTenor() &&
+                         getTenor() > getBass();
+    return voicesClose && voicesInOrder;
 }
 
 bool Voicing::isInRange(int key) {

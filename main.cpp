@@ -178,7 +178,6 @@ int main() {
     auto initStart = Clock::now();
     double initTime = 0;
 
-#if 0
     /* Make hardcoded melody line of Bb F Bb to use for testing */
     Note sop1{1, 4};
     Note sop2{5, 4};
@@ -186,7 +185,7 @@ int main() {
     std::vector<Note> melodyLine{sop1, sop2, sop3};
 
 
-#endif
+#if 0
     char key;
     std::vector<Note> melodyLine;
     readKeyAndSopranoLine("test.mid", key, melodyLine);
@@ -197,6 +196,7 @@ int main() {
         count++;
     }
 
+#endif
     initTime += duration_cast<dsec>(Clock::now() - initStart).count();
     printf("Initialization Time: %lf.\n", initTime);
 
@@ -232,13 +232,14 @@ int main() {
         totalSize += solution.size();
         for (std::vector<Voicing> validVoicings : solution) {
             // for each voicing
-            for (Voicing voicing : validVoicings) {
-                for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+            for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+                for (Voicing voicing : validVoicings) {
                     Note currNote = voicing.at(i);
                     printf("%s ", currNote.toString().c_str());
                 }
+                printf("\n");
             }
-            printf("\n");
+            printf("==\n");
         }
         printf("-----------------------------\n");
     }

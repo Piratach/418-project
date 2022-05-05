@@ -28,6 +28,7 @@ private:
     bool isVoicingPartOfChord(Voicing voicing);
     bool isBassDegreeValid(Note note);
     bool isThirdCountValid(Voicing voicing);
+    bool isFifthCountValid(Voicing voicing);
 
     std::string chordName;
     uint8_t bassScaleDegree;
