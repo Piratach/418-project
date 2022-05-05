@@ -5,13 +5,16 @@ OBJS=Binasc.o Options.o MidiMessage.o MidiEvent.o MidiEventList.o MidiFile.o
 CXX = g++ -m64 -std=c++11
 CXXFLAGS = -I. -O3 -Wall
 
-default: solver-test
+default: parallel
 
 midi-test: midi-test.cpp chord.cpp note.cpp voicing.cpp midi.cpp
 	g++ -o midi-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp midi-test.cpp chord.cpp note.cpp voicing.cpp midi.cpp
 
-solver-test: main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver.cpp
-	g++ -o solver-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver.cpp
+sequential: main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver-sequential.cpp
+	g++ -o sequential -fopenmp midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver-sequential.cpp
+
+parallel: main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver-parallel.cpp
+	g++ -o parallel -fopenmp midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver-parallel.cpp
 
 clean:
 	/bin/rm -rf *.o

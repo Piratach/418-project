@@ -1,5 +1,6 @@
 
 #include <chrono>
+#include <omp.h>
 #include <stdio.h>
 #include <vector>
 
@@ -45,10 +46,14 @@ int main() {
     typedef std::chrono::high_resolution_clock Clock;
     typedef std::chrono::duration<double> dsec;
 
+
+    omp_set_num_threads(16);
+
     auto initStart = Clock::now();
     double initTime = 0;
 
     /* Make hardcoded melody line of Bb F Bb to use for testing */
+#if 0
     int key = 3;
     Note sop1{2, 4};
     Note sop2{3, 4};
@@ -56,10 +61,11 @@ int main() {
     Note sop4{4, 4};
     std::vector<Note> melodyLine{sop1, sop2, sop3, sop4};
 
-#if 0
+#endif
+
     char key;
     std::vector<Note> melodyLine;
-    readKeyAndSopranoLine("midi-inputs/exercise5.mid", key, melodyLine);
+    readKeyAndSopranoLine("midi-inputs/assn1.mid", key, melodyLine);
 
     int count = 0;
     for (Note n : melodyLine) {
@@ -67,7 +73,6 @@ int main() {
         count++;
     }
 
-#endif
     initTime += duration_cast<dsec>(Clock::now() - initStart).count();
     printf("Initialization Time: %lf.\n", initTime);
 
@@ -78,11 +83,11 @@ int main() {
 
     size_t totalSize = 0;
     for (std::vector<Chord> chordProg : possibleChordProgs) {
-        printChordProg(chordProg);
+        // printChordProg(chordProg);
 
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg, key);
         totalSize += solution.size();
-        printf("%lu\n", solution.size());
+        // printf("%lu\n", solution.size());
         //printSolutionsPerChordProg(solution);
     }
 
