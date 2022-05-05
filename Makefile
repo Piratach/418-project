@@ -10,8 +10,8 @@ default: solver-test
 midi-test: midi-test.cpp chord.cpp note.cpp voicing.cpp midi.cpp
 	g++ -o midi-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp midi-test.cpp chord.cpp note.cpp voicing.cpp midi.cpp
 
-solver-test: main.cpp chord.cpp note.cpp voicing.cpp midi.cpp
-	g++ -o solver-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp midi.cpp
+solver-test: main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver.cpp
+	g++ -o solver-test midifile/Binasc.cpp midifile/Options.cpp midifile/MidiMessage.cpp midifile/MidiEvent.cpp midifile/MidiEventList.cpp midifile/MidiFile.cpp main.cpp chord.cpp note.cpp voicing.cpp midi.cpp solver.cpp
 
 clean:
 	/bin/rm -rf *.o
