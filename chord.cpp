@@ -1,12 +1,12 @@
 
 #include "chord.h"
 
-Chord::Chord(uint8_t _bassScaleDegree, uint8_t _degrees[3], std::string _chordName) 
+Chord::Chord(uint8_t _bassScaleIndex, uint8_t _degrees[3], std::string _chordName) 
 : chordName(_chordName) {
     for (int i = 0; i < NOTES_PER_CHORD; ++i) {
         degrees[i] = _degrees[i];
     }
-    bassScaleDegree = _bassScaleDegree;
+    bassScaleIndex = _bassScaleIndex;
 }
 
 bool Chord::operator==(const Chord &chord) {
@@ -15,7 +15,7 @@ bool Chord::operator==(const Chord &chord) {
             return false;
         }
     }
-    return true;
+    return bassScaleIndex == chord.bassScaleIndex;
 }
 
 bool Chord::isPartOfChord(Note note) {
@@ -46,7 +46,7 @@ bool Chord::isVoicingPartOfChord(Voicing voicing) {
 }
 
 bool Chord::isBassDegreeValid(Note bass) {
-    if (bass.scaleDegree != degrees[0]) {
+    if (bass.scaleDegree != degrees[bassScaleIndex]) {
         return false;
     }
     return true;
@@ -94,12 +94,15 @@ Chord IV = Chord(0, degreesIV, "IV");
 uint8_t degreesV[] = {5, 7, 2};
 Chord V = Chord(0, degreesV, "V");
 
-std::vector<Chord> chordLst = {I, IV, V};
+Chord I6 = Chord(1, degreesI, "I6");
+Chord V6 = Chord(1, degreesV, "V6");
+
+std::vector<Chord> chordLst = {I, IV, V, I6, V6};
 
 /****************************** Chord Constraints **************************************/
 
 bool isRetrogression(Chord ch1, Chord ch2) {
-    return ch1 == V && ch2 == IV;
+    return (ch1 == V || ch2 == V6) && ch2 == IV;
 }
 
 /* Not an actual rule, enforced just to ensure variety. */

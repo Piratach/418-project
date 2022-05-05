@@ -58,7 +58,7 @@ int main() {
 
     char key;
     std::vector<Note> melodyLine;
-    readKeyAndSopranoLine("test.mid", key, melodyLine);
+    readKeyAndSopranoLine("midi-inputs/exercise5.mid", key, melodyLine);
 
     int count = 0;
     for (Note n : melodyLine) {
@@ -81,7 +81,7 @@ int main() {
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg, key);
         totalSize += solution.size();
 
-        printSolutionsPerChordProg(solution);
+        //printSolutionsPerChordProg(solution);
     }
 
     printf("totalSize: %lu\n", totalSize);
