@@ -1,5 +1,6 @@
 #include "midifile/MidiFile.h"
 #include <stdio.h>
+#include "midi.h"
 
 // #include <iostream>
 // #include <iomanip>
@@ -38,8 +39,7 @@ void getNoteName(int noteNumber, char *result) {
     sprintf(result, "%s%d", noteName, octave);
 }
 
-int main() { 
-    const char *filepath = "test.mid";
+void outputMidiFileInfo(const char *filepath) {
     double tempoBPM;
     char keySignature;
     std::vector<int> noteNumbers = getPitches(filepath, tempoBPM, keySignature);
@@ -50,5 +50,14 @@ int main() {
         getNoteName(noteNumbers[i], noteName);
         printf("Pitch %d: %s\n", i, noteName);
     }
+}
+
+int main() { 
+    const char *filepath = "test.mid";
+    outputMidiFileInfo(filepath);
+    int key;
+    std::vector<Note> sopranoLine;
+    readKeyAndSopranoLine(filepath, key, sopranoLine);
+
     return 0;
 }
