@@ -5,5 +5,5 @@
 #include "note.h"
 #include "voicing.h"
 
-void readKeyAndSopranoLine(const char *filepath, int &key, std::vector<Note> sopranoLine);
+void readKeyAndSopranoLine(const char *filepath, char &key, std::vector<Note> &sopranoLine);
 void writeVoicings(char *filepath, std::vector<Voicing> voicings);

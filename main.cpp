@@ -6,6 +6,7 @@
 #include "chord.h"
 #include "note.h"
 #include "voicing.h"
+#include "midi.h"
 
 /** Pseudocode
  * 1. initialize chordProgs as [[]]
@@ -177,12 +178,24 @@ int main() {
     auto initStart = Clock::now();
     double initTime = 0;
 
+#if 0
     /* Make hardcoded melody line of Bb F Bb to use for testing */
     Note sop1{1, 4};
     Note sop2{5, 4};
     Note sop3{1, 4};
-
     std::vector<Note> melodyLine{sop1, sop2, sop3};
+
+
+#endif
+    char key;
+    std::vector<Note> melodyLine;
+    readKeyAndSopranoLine("test.mid", key, melodyLine);
+
+    int count = 0;
+    for (Note n : melodyLine) {
+        printf("Note %d: %s\n", count, n.toString().c_str());
+        count++;
+    }
 
     initTime += duration_cast<dsec>(Clock::now() - initStart).count();
     printf("Initialization Time: %lf.\n", initTime);

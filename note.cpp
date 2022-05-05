@@ -15,12 +15,17 @@ Note::Note(uint8_t _scaleDegree, uint8_t _relativeOctave) {
     relativeOctave = _relativeOctave;
 }
 
+int keyOffset(int key) {
+    return ((key * 7) % 12 + 12) % 12; // additional modulo accounts for negative keys
+}
+
 Note Note::fromMidiNumber(int key, int midiNumber) {
-   int keyOffset = (key * 7) % 12;   
-   int normalizedMidiNumber = midiNumber - keyOffset;
+   int offset = keyOffset(key);
+   int normalizedMidiNumber = midiNumber - offset;
    int halfSteps = normalizedMidiNumber % 12;
    int scaleDegree = halfStepsToScaleDegree[halfSteps];
    int octave = normalizedMidiNumber / 12 - 1;
+   // printf("%d, %d, %d, %d, %d, %d, %d", midiNumber, key, offset, normalizedMidiNumber, halfSteps, scaleDegree, octave);
    return Note(scaleDegree, octave);
 }
 
@@ -58,9 +63,9 @@ Note Note::operator++() {
     return Note{scaleDegree, relativeOctave};
 }
 
+
 int Note::toMidiNumber(int key) {
     int halfSteps = scaleDegreeToHalfSteps[scaleDegree];
     int normalizedMidiNumber = 12 * (relativeOctave + 1) + halfSteps;
-    int keyOffset = (key * 7) % 12;
-    return normalizedMidiNumber + keyOffset;
+    return normalizedMidiNumber + keyOffset(key);
 }

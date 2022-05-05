@@ -48,16 +48,22 @@ void outputMidiFileInfo(const char *filepath) {
     for (int i = 0; i < noteNumbers.size(); i++) {
         char *noteName = (char *) malloc(4);
         getNoteName(noteNumbers[i], noteName);
-        printf("Pitch %d: %s\n", i, noteName);
+        printf("Pitch %d: %d (%s)\n", i, noteNumbers[i], noteName);
+        free(noteName);
     }
 }
 
 int main() { 
     const char *filepath = "test.mid";
     outputMidiFileInfo(filepath);
-    int key;
+    char key;
     std::vector<Note> sopranoLine;
     readKeyAndSopranoLine(filepath, key, sopranoLine);
+    int count = 0;
+    for (Note n : sopranoLine) {
+        printf("Note %d: %s\n", count, n.toString().c_str());
+        count++;
+    }
 
     return 0;
 }
