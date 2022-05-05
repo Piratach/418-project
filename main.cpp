@@ -9,6 +9,8 @@
 #include "voicing.h"
 #include "midi.h"
 
+/******************************* Debugging Functions ***********************************/
+
 void printChordProg(std::vector<Chord> chordProg) {
     for (size_t i = 0; i < chordProg.size(); ++i) {
         Chord chord = chordProg[i];
@@ -20,6 +22,23 @@ void printChordProg(std::vector<Chord> chordProg) {
         }
     }
 }
+
+void printSolutionsPerChordProg(std::vector<std::vector<Voicing>> solution) {
+    for (std::vector<Voicing> validVoicings : solution) {
+        // for each voicing
+        for (int i = 0; i < NOTES_PER_VOICING; ++i) {
+            for (Voicing voicing : validVoicings) {
+                Note currNote = voicing.at(i);
+                printf("%s ", currNote.toString().c_str());
+            }
+            printf("\n");
+        }
+        printf("==\n");
+    }
+    printf("-----------------------------\n");
+}
+
+/***************************************************************************************/
 
 int main() {
     using namespace std::chrono;
@@ -58,21 +77,13 @@ int main() {
     size_t totalSize = 0;
     for (std::vector<Chord> chordProg : possibleChordProgs) {
         printChordProg(chordProg);
+
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg, key);
         totalSize += solution.size();
-        for (std::vector<Voicing> validVoicings : solution) {
-            // for each voicing
-            for (int i = 0; i < NOTES_PER_VOICING; ++i) {
-                for (Voicing voicing : validVoicings) {
-                    Note currNote = voicing.at(i);
-                    printf("%s ", currNote.toString().c_str());
-                }
-                printf("\n");
-            }
-            printf("==\n");
-        }
-        printf("-----------------------------\n");
+
+        printSolutionsPerChordProg(solution);
     }
+
     printf("totalSize: %lu\n", totalSize);
 
     computeTime += duration_cast<dsec>(Clock::now() - computeStart).count();
