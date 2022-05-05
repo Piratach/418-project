@@ -22,7 +22,7 @@ void readKeyAndSopranoLine(const char *filepath, char &key, std::vector<Note> &s
     }
 }
     
-void writeVoicings(char *filepath, int key, std::vector<Voicing> voicings) {
+void writeVoicings(const char *filepath, int key, std::vector<Voicing> voicings) {
     smf::MidiFile midifile;
     int ioi = 250;
     int channel = 0;
