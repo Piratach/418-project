@@ -64,14 +64,14 @@ bool Chord::isThirdCountValid(Voicing voicing) {
 }
 
 bool Chord::isFifthCountValid(Voicing voicing) {
-    int thirdOfChordCount = 0;
+    int fifthOfChordCount = 0;
     for (int i = 0; i < NOTES_PER_VOICING; ++i) {
         Note currNote = voicing.voices[i];
         if (currNote.scaleDegree == degrees[2]) {
-            ++thirdOfChordCount;
+            ++fifthOfChordCount;
         }
     }
-    return thirdOfChordCount >= 1;
+    return fifthOfChordCount >= 1;
 }
 
 bool Chord::isValidChord(Voicing voicing) {
@@ -102,7 +102,7 @@ std::vector<Chord> chordLst = {I, IV, V, I6, V6};
 /****************************** Chord Constraints **************************************/
 
 bool isRetrogression(Chord ch1, Chord ch2) {
-    return (ch1 == V || ch2 == V6) && ch2 == IV;
+    return (ch1 == V || ch1 == V6) && ch2 == IV;
 }
 
 /* Not an actual rule, enforced just to ensure variety. */

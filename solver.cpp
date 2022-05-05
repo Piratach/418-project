@@ -25,8 +25,6 @@ std::vector<Chord> getPossibleChords(Note note) {
 }
 
 bool isStillValidProgression(std::vector<Chord> prog, Chord possibleChord) {
-    // V > IV constraint check
-
     if (prog.empty()) {
         return true;
     }

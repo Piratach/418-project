@@ -49,13 +49,14 @@ int main() {
     double initTime = 0;
 
     /* Make hardcoded melody line of Bb F Bb to use for testing */
-#if 0
-    Note sop1{1, 4};
-    Note sop2{5, 4};
-    Note sop3{1, 4};
-    std::vector<Note> melodyLine{sop1, sop2, sop3};
-#endif
+    int key = 3;
+    Note sop1{2, 4};
+    Note sop2{3, 4};
+    Note sop3{5, 4};
+    Note sop4{4, 4};
+    std::vector<Note> melodyLine{sop1, sop2, sop3, sop4};
 
+#if 0
     char key;
     std::vector<Note> melodyLine;
     readKeyAndSopranoLine("midi-inputs/exercise5.mid", key, melodyLine);
@@ -66,6 +67,7 @@ int main() {
         count++;
     }
 
+#endif
     initTime += duration_cast<dsec>(Clock::now() - initStart).count();
     printf("Initialization Time: %lf.\n", initTime);
 
@@ -80,7 +82,7 @@ int main() {
 
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg, key);
         totalSize += solution.size();
-
+        printf("%lu\n", solution.size());
         //printSolutionsPerChordProg(solution);
     }
 
