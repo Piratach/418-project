@@ -29,7 +29,7 @@ Note Note::fromMidiNumber(int key, int midiNumber) {
    return Note(scaleDegree, octave);
 }
 
-static Note highestNoteNotAboveMidiNumber(int key, int midiNumber) {
+static Note highestNoteNotAbove(int key, int midiNumber) {
     Note note = Note::fromMidiNumber(key, midiNumber);
     while (note.scaleDegree == 0) {
         note = Note::fromMidiNumber(key, --midiNumber);
@@ -37,7 +37,7 @@ static Note highestNoteNotAboveMidiNumber(int key, int midiNumber) {
     return note;
 }
 
-static Note lowestNoteNotBelowMidiNumber(int key, int midiNumber) {
+static Note lowestNoteNotBelow(int key, int midiNumber) {
     Note note = Note::fromMidiNumber(key, midiNumber);
     while (note.scaleDegree == 0) {
         note = Note::fromMidiNumber(key, ++midiNumber);

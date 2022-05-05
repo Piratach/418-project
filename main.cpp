@@ -77,13 +77,13 @@ std::vector<Voicing> getPossibleVoicings(Chord chord, Note soprano/*, int key*/)
     std::vector<Voicing> possibleVoicings;
 
     int key = -2;
-    Note bassMin = Note::fromMidiNumber(BASS_MIN, key);
-    Note tenorMin = Note::fromMidiNumber(TENOR_MIN, key);
-    Note altoMin = Note::fromMidiNumber(ALTO_MIN, key);
+    Note bassMin = Note::highestNoteNotAbove(key, BASS_MIN);
+    Note tenorMin = Note::highestNoteNotAbove(key, TENOR_MIN);
+    Note altoMin = Note::highestNoteNotAbove(key, ALTO_MIN);
 
-    Note bassMax = Note::fromMidiNumber(BASS_MAX, key);
-    Note tenorMax = Note::fromMidiNumber(TENOR_MAX, key);
-    Note altoMax = Note::fromMidiNumber(ALTO_MAX, key);
+    Note bassMax = Note::lowestNoteNotBelow(key, BASS_MAX);
+    Note tenorMax = Note::lowestNoteNotBelow(key, TENOR_MAX);
+    Note altoMax = Note::lowestNoteNotBelow(key, ALTO_MAX);
 
     // TODO: this doesn't work currently.
     for (Note bass = bassMin; bass < bassMax; ++bass) {
