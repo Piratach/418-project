@@ -47,31 +47,38 @@ int main() {
     typedef std::chrono::duration<double> dsec;
 
 
-    omp_set_num_threads(16);
+    omp_set_num_threads(128);
 
     auto initStart = Clock::now();
     double initTime = 0;
 
+    int iterations = 4;
+
     /* Make hardcoded melody line of Bb F Bb to use for testing */
-#if 0
+// #if 0
     int key = 3;
-    Note sop1{2, 4};
-    Note sop2{3, 4};
+    Note sop1{3, 4};
+    Note sop2{4, 4};
     Note sop3{5, 4};
-    Note sop4{4, 4};
-    std::vector<Note> melodyLine{sop1, sop2, sop3, sop4};
-
-#endif
-
-    char key;
     std::vector<Note> melodyLine;
-    readKeyAndSopranoLine("midi-inputs/assn1.mid", key, melodyLine);
 
-    int count = 0;
-    for (Note n : melodyLine) {
-        printf("Note %d: %s\n", count, n.toString().c_str());
-        count++;
+    for (int i = 0; i < iterations; ++i) {
+        melodyLine.push_back(sop1);
+        melodyLine.push_back(sop2);
+        melodyLine.push_back(sop3);
     }
+
+// #endif
+
+    // char key;
+    // std::vector<Note> melodyLine;
+    // readKeyAndSopranoLine("midi-inputs/assn1.mid", key, melodyLine);
+
+    // int count = 0;
+    // for (Note n : melodyLine) {
+        // printf("Note %d: %s\n", count, n.toString().c_str());
+        // count++;
+    // }
 
     initTime += duration_cast<dsec>(Clock::now() - initStart).count();
     printf("Initialization Time: %lf.\n", initTime);
@@ -82,11 +89,16 @@ int main() {
     std::vector<std::vector<Chord>> possibleChordProgs = getChordProgressions(melodyLine);
 
     size_t totalSize = 0;
-    for (std::vector<Chord> chordProg : possibleChordProgs) {
+
+    int i;
+#pragma omp parallel for default(shared) private(i) schedule(dynamic)
+    for (i = 0; i < possibleChordProgs.size(); ++i) {
+        std::vector<Chord> chordProg = possibleChordProgs[i];
+    // for (std::vector<Chord> chordProg : possibleChordProgs) {
         // printChordProg(chordProg);
 
         std::vector<std::vector<Voicing>> solution = solver(melodyLine, chordProg, key);
-        totalSize += solution.size();
+        // totalSize += solution.size();
         // printf("%lu\n", solution.size());
         //printSolutionsPerChordProg(solution);
     }
