@@ -130,21 +130,18 @@ std::vector<std::vector<Voicing>> merge(std::vector<std::vector<Voicing>> fst, s
 
 std::vector<std::vector<Voicing>> solverRecursive(std::vector<Note> melodyLine,
         std::vector<Chord> chordProg, int key, int numThreads, int startIndex, int endIndex) {
-#pragma omp parallel
     std::vector<std::vector<Voicing>> solution{std::vector<Voicing>()}; 
 
     int length = endIndex - startIndex;
 
     if (length < GRANULARITY_LIMIT) {
-        printf("gran limit: %d\n", omp_get_thread_num());
         return solverSequential(melodyLine, chordProg, key, numThreads, startIndex, endIndex);
     }
-    printf("not gran limit\n");
 
     std::vector<std::vector<Voicing>> fstHalfSol;
     std::vector<std::vector<Voicing>> sndHalfSol;
 
-#pragma omp task shared(melodyLine, chordProg)
+#pragma omp task
     fstHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex, startIndex + length / 2);
 
     sndHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex + length / 2, endIndex);
@@ -157,5 +154,8 @@ std::vector<std::vector<Voicing>> solverRecursive(std::vector<Note> melodyLine,
 std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
         std::vector<Chord> chordProg, int key, int numThreads) {
     // return solverSequential(melodyLine, chordProg, key, numThreads, 0, melodyLine.size());
-    return solverRecursive(melodyLine, chordProg, key, numThreads, 0, melodyLine.size());
+    std::vector<std::vector<Voicing>> sol;
+#pragma omp parallel
+    sol = solverRecursive(melodyLine, chordProg, key, numThreads, 0, melodyLine.size());
+    return sol;
 }
