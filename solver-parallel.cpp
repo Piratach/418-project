@@ -1,6 +1,6 @@
 #include "solver.h"
 #include <omp.h>
-#define GRANULARITY_LIMIT 2
+#define GRANULARITY_LIMIT 3
 
 std::vector<Chord> getPossibleChords(Note note) {
     std::vector<Chord> possibleChords;
@@ -81,11 +81,11 @@ std::vector<Voicing> getPossibleVoicings(Chord chord, Note soprano, int key) {
 
 
 std::vector<std::vector<Voicing>> solverSequential(std::vector<Note> melodyLine,
-        std::vector<Chord> chordProg, int key, int numThreads, int startIndex, int length) {
+        std::vector<Chord> chordProg, int key, int numThreads, int startIndex, int endIndex) {
     std::vector<std::vector<Voicing>> solution{std::vector<Voicing>()}; 
 
     // For each note in the soprano
-    for (int i = 0; i < melodyLine.size(); ++i) {
+    for (int i = startIndex; i < endIndex; ++i) {
         Chord currChord = chordProg[i];
         Note sopranoNote = melodyLine[i];
 
@@ -116,8 +116,7 @@ std::vector<std::vector<Voicing>> merge(std::vector<std::vector<Voicing>> fst, s
     std::vector<std::vector<Voicing>> mergedSol;
     for (std::vector<Voicing> v1 : fst) {
         for (std::vector<Voicing> v2 : snd) {
-            if (v1.empty() || v2.empty() ||
-                    satisfiesAll(v1.back(), v2.front())) {
+            if (v1.empty() || v2.empty() || satisfiesAll(v1.back(), v2.front())) {
                 std::vector<Voicing> v1v2Merged;
                 v1v2Merged.reserve(v1.size() + v2.size());
                 v1v2Merged.insert(v1v2Merged.end(), v1.begin(), v1.end());
@@ -130,27 +129,33 @@ std::vector<std::vector<Voicing>> merge(std::vector<std::vector<Voicing>> fst, s
 }
 
 std::vector<std::vector<Voicing>> solverRecursive(std::vector<Note> melodyLine,
-        std::vector<Chord> chordProg, int key, int numThreads, int startIndex, int length) {
+        std::vector<Chord> chordProg, int key, int numThreads, int startIndex, int endIndex) {
+#pragma omp parallel
     std::vector<std::vector<Voicing>> solution{std::vector<Voicing>()}; 
 
+    int length = endIndex - startIndex;
+
     if (length < GRANULARITY_LIMIT) {
-        return solverSequential(melodyLine, chordProg, key, numThreads, startIndex, length);
+        printf("gran limit: %d\n", omp_get_thread_num());
+        return solverSequential(melodyLine, chordProg, key, numThreads, startIndex, endIndex);
     }
+    printf("not gran limit\n");
 
     std::vector<std::vector<Voicing>> fstHalfSol;
     std::vector<std::vector<Voicing>> sndHalfSol;
 
-    #pragma omp task
-    fstHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex, length / 2);
+#pragma omp task shared(melodyLine, chordProg)
+    fstHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex, startIndex + length / 2);
 
-    sndHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex + length / 2, length - length / 2);
+    sndHalfSol = solverRecursive(melodyLine, chordProg, key, numThreads, startIndex + length / 2, endIndex);
 
-    #pragma omp taskwait
+#pragma omp taskwait
     return merge(fstHalfSol, sndHalfSol);
 }
 
 
 std::vector<std::vector<Voicing>> solver(std::vector<Note> melodyLine,
         std::vector<Chord> chordProg, int key, int numThreads) {
+    // return solverSequential(melodyLine, chordProg, key, numThreads, 0, melodyLine.size());
     return solverRecursive(melodyLine, chordProg, key, numThreads, 0, melodyLine.size());
 }
