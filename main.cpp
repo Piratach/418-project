@@ -52,7 +52,7 @@ int main() {
     auto initStart = Clock::now();
     double initTime = 0;
 
-    int iterations = 4;
+    int iterations = 3;
 
     /* Make hardcoded melody line of Bb F Bb to use for testing */
 // #if 0
@@ -91,7 +91,7 @@ int main() {
     size_t totalSize = 0;
 
     int i;
-#pragma omp parallel for default(shared) private(i) schedule(dynamic)
+// #pragma omp parallel for default(shared) private(i) schedule(dynamic)
     for (i = 0; i < possibleChordProgs.size(); ++i) {
         std::vector<Chord> chordProg = possibleChordProgs[i];
     // for (std::vector<Chord> chordProg : possibleChordProgs) {
